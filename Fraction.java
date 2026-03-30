@@ -204,6 +204,13 @@ public class Fraction extends Number {
 
 //----------------equals----------------\\
     @Override
+    public boolean equals(Type other) {
+        if (other instanceof Number) {return this.equals((Number) other);}
+        //if (other instanceof Function) {return this.add((Function) other);}
+
+        throw new IllegalArgumentException("Not Included In The Valid Class Types");
+    }
+    
     public boolean equals(Number other) {
         boolean newNum = false;
         if (other instanceof Integer) {newNum = this.getNum() == ((Integer) other).getValue() * this.getDen();}

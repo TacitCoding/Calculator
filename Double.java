@@ -48,7 +48,7 @@ public class Double extends Number {
         Number newNum = new Integer(0);
         if (other instanceof Integer) {newNum = new Double(this.getValue() - ((Integer) other).getValue());}
         if (other instanceof Double) {newNum = new Double(this.getValue() - ((Double) other).getValue());}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).subtract(this);}
+        if (other instanceof Fraction) {newNum = (Number) (((Fraction) other).negate()).add(this);}
         return newNum;
     }
 
@@ -100,7 +100,7 @@ public class Double extends Number {
         Number newNum = new Integer(0);
         if (other instanceof Integer) {newNum = new Double(this.getValue() / ((Integer) other).getValue());}
         if (other instanceof Double) {newNum = new Double(this.getValue() / ((Double) other).getValue());}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).divide(this);}
+        if (other instanceof Fraction) {Fraction o = (Fraction) other; newNum = (new Fraction(o.getDen(), o.getNum())).multiply(this);}
         return newNum;
     }
 
@@ -118,10 +118,10 @@ public class Double extends Number {
     public Type pow(Integer n) {
         boolean negate = false;
         if (n.lessThan(new Integer(0))) {n = new Integer(n.getValue() * -1); negate = true;}
-        Double newDub = new Double(1);
-        for (int i = 1; i < n.getValue(); i++) {newDub = newDub.multiply(this);}
-        if (negate) {return (new Integer(1)).divide(newDub);}
-        return newDub;
+        double newDub = 1.0;
+        for (int i = 1; i < n.getValue(); i++) {newDub *= this.value;}
+        if (negate) {return new Double(1 / newDub);}
+        return new Double(newDub);
     }
 
     @Override
@@ -131,6 +131,13 @@ public class Double extends Number {
 
 //----------------equals----------------\\
     @Override
+    public boolean equals(Type other) {
+        if (other instanceof Number) {return this.equals((Number) other);}
+        //if (other instanceof Function) {return this.add((Function) other);}
+
+        throw new IllegalArgumentException("Not Included In The Valid Class Types");
+    }
+
     public boolean equals(Number other) {
         boolean newNum = false;
         if (other instanceof Integer) {newNum = this.getValue() == ((Integer) other).getValue();}
@@ -147,7 +154,7 @@ public class Double extends Number {
         boolean newNum = false;
         if (other instanceof Integer) {newNum = this.getValue() > ((Integer) other).getValue();}
         if (other instanceof Double) {newNum = this.getValue() >((Double) other).getValue();}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).greaterThan(this);}
+        if (other instanceof Fraction) {newNum = !(((Fraction) other).greaterThan(this));}
         return newNum;
     }
 //----------------------------------------\\
@@ -159,7 +166,7 @@ public class Double extends Number {
         boolean newNum = false;
         if (other instanceof Integer) {newNum = this.getValue() >= ((Integer) other).getValue();}
         if (other instanceof Double) {newNum = this.getValue() >= ((Double) other).getValue();}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).greaterThanOrEquals(this);}
+        if (other instanceof Fraction) {newNum = !(((Fraction) other).greaterThanOrEquals(this));}
         return newNum;
     }
 //----------------------------------------\\
@@ -171,7 +178,7 @@ public class Double extends Number {
         boolean newNum = false;
         if (other instanceof Integer) {newNum = this.getValue() < ((Integer) other).getValue();}
         if (other instanceof Double) {newNum = this.getValue() < ((Double) other).getValue();}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).lessThan(this);}
+        if (other instanceof Fraction) {newNum = !(((Fraction) other).lessThan(this));}
         return newNum;
     }
 //----------------------------------------\\
@@ -183,7 +190,7 @@ public class Double extends Number {
         boolean newNum = false;
         if (other instanceof Integer) {newNum = this.getValue() <= ((Integer) other).getValue();}
         if (other instanceof Double) {newNum = this.getValue() <= ((Double) other).getValue();}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).lessThanOrEquals(this);}
+        if (other instanceof Fraction) {newNum = !(((Fraction) other).lessThanOrEquals(this));}
         return newNum;
     }
 //----------------------------------------\\
@@ -202,7 +209,7 @@ public class Double extends Number {
             str = str.replace(".", "");
         }
 
-        int numerator = Integer.parseInt(str);
+        int numerator = (int) (this.value * ((int) Math.pow(10, decimalPlaces)));
         int denominator = (int) Math.pow(10, decimalPlaces);
 
         return new Fraction(numerator, denominator);
