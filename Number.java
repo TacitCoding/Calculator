@@ -2,9 +2,9 @@ public abstract class Number extends Type {
 
 
     public abstract boolean greaterThan(Number input);
-    public abstract boolean greaterThanOrEqual(Number input);
+    public abstract boolean greaterThanOrEquals(Number input);
     public abstract boolean lessThan(Number input);
-    public abstract boolean lessThanOrEqual(Number input);
+    public abstract boolean lessThanOrEquals(Number input);
 
     @Override
     public Type derivative() {
