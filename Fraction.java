@@ -46,7 +46,7 @@ public class Fraction extends Number {
     @Override
     public Type add(Type other) {
         if (other instanceof Number) {return this.add((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
+        if (other instanceof Function) {return other.add(this);}
 
         throw new IllegalArgumentException("Not Included In The Valid Class Types");
     }
@@ -66,13 +66,6 @@ public class Fraction extends Number {
         }
         return newNum;
     }
-
-    //public Function add(Function other) {
-
-        //if (other instanceof Identity)
-        //if (other instanceof Polynomial)   
-        //return newNum;
-    //}
 //----------------------------------------\\
 
 
@@ -80,7 +73,7 @@ public class Fraction extends Number {
     @Override
     public Type subtract(Type other) {
         if (other instanceof Number) {return this.subtract((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
+        if (other instanceof Function) {return other.subtract(this);}
 
         throw new IllegalArgumentException("Not Included In The Valid Class Types");
     }
@@ -100,13 +93,6 @@ public class Fraction extends Number {
         }
         return newNum;
     }
-
-    //public Function add(Function other) {
-
-        //if (other instanceof Identity)
-        //if (other instanceof Polynomial)   
-        //return newNum;
-    //}
 //----------------------------------------\\
 
 
@@ -114,7 +100,7 @@ public class Fraction extends Number {
     @Override
     public Type multiply(Type other) {
         if (other instanceof Number) {return this.multiply((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
+        if (other instanceof Function) {return other.add(this);}
 
         throw new IllegalArgumentException("Not Included In The Valid Class Types");
     }
@@ -134,13 +120,6 @@ public class Fraction extends Number {
         }
         return newNum;
     }
-
-    //public Function add(Function other) {
-
-        //if (other instanceof Identity)
-        //if (other instanceof Polynomial)   
-        //return newNum;
-    //}
 //----------------------------------------\\
 
 
@@ -206,7 +185,7 @@ public class Fraction extends Number {
     @Override
     public boolean equals(Type other) {
         if (other instanceof Number) {return this.equals((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
+        if (other instanceof Function) {return this.equals((Function) other);}
 
         throw new IllegalArgumentException("Not Included In The Valid Class Types");
     }
@@ -217,6 +196,14 @@ public class Fraction extends Number {
         if (other instanceof Double) {newNum = this.equals(((Double) other).toFraction());}
         if (other instanceof Fraction) {Fraction o = (Fraction) other; newNum = this.getNum() == o.getNum() && this.getDen() == o.getDen();}
         return newNum;
+    }
+
+    public boolean equals(Function other) {
+        if (other instanceof Polynomial) {
+            Polynomial o = (Polynomial) other;
+            if (o.getCoeff().length == 0 && (o.getCoeff()[0]).equals(this)) {return true;}
+        }
+        return false;
     }
 //----------------------------------------\\
 

@@ -6,6 +6,8 @@ public abstract class Number extends Type {
     public abstract boolean lessThan(Number input);
     public abstract boolean lessThanOrEquals(Number input);
 
+    public abstract Type divide(Type other); //will remove eventually
+
     @Override
     public Type derivative() {return new Integer(0);}
 

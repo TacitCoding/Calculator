@@ -13,7 +13,7 @@ public class Double extends Number {
     @Override
     public Type add(Type other) {
         if (other instanceof Number) {return this.add((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
+        if (other instanceof Function) {return other.add(this);}
 
         throw new IllegalArgumentException("Not Included In The Valid Class Types");
     }
@@ -25,13 +25,6 @@ public class Double extends Number {
         if (other instanceof Fraction) {newNum = ((Fraction) other).add(this);}
         return newNum;
     }
-
-    //public Function add(Function other) {
-
-        //if (other instanceof Identity)
-        //if (other instanceof Polynomial)   
-        //return newNum;
-    //}
 //----------------------------------------\\
 
 
@@ -39,7 +32,7 @@ public class Double extends Number {
     @Override
     public Type subtract(Type other) {
         if (other instanceof Number) {return this.subtract((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
+        if (other instanceof Function) {return other.subtract(this);}
 
         throw new IllegalArgumentException("Not Included In The Valid Class Types");
     }
@@ -51,13 +44,6 @@ public class Double extends Number {
         if (other instanceof Fraction) {newNum = (Number) (((Fraction) other).negate()).add(this);}
         return newNum;
     }
-
-    //public Function add(Function other) {
-
-        //if (other instanceof Identity)
-        //if (other instanceof Polynomial)   
-        //return newNum;
-    //}
 //----------------------------------------\\
 
 
@@ -65,7 +51,7 @@ public class Double extends Number {
     @Override
     public Type multiply(Type other) {
         if (other instanceof Number) {return this.multiply((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
+        if (other instanceof Function) {return other.multiply(this);}
 
         throw new IllegalArgumentException("Not Included In The Valid Class Types");
     }
@@ -77,13 +63,6 @@ public class Double extends Number {
         if (other instanceof Fraction) {newNum = ((Fraction) other).multiply(this);}
         return newNum;
     }
-
-    //public Function add(Function other) {
-
-        //if (other instanceof Identity)
-        //if (other instanceof Polynomial)   
-        //return newNum;
-    //}
 //----------------------------------------\\
 
 
@@ -133,7 +112,7 @@ public class Double extends Number {
     @Override
     public boolean equals(Type other) {
         if (other instanceof Number) {return this.equals((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
+        if (other instanceof Function) {return this.equals((Function) other);}
 
         throw new IllegalArgumentException("Not Included In The Valid Class Types");
     }
@@ -144,6 +123,14 @@ public class Double extends Number {
         if (other instanceof Double) {newNum = this.getValue() == ((Double) other).getValue();}
         if (other instanceof Fraction) {newNum = ((Fraction) other).equals(this);}
         return newNum;
+    }
+
+    public boolean equals(Function other) {
+        if (other instanceof Polynomial) {
+            Polynomial o = (Polynomial) other;
+            if (o.getCoeff().length == 0 && (o.getCoeff()[0]).equals(this)) {return true;}
+        }
+        return false;
     }
 //----------------------------------------\\
 
