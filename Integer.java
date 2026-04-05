@@ -11,106 +11,39 @@ public class Integer extends Number {
 
 //----------------Addition----------------\\
     @Override
-    public Type add(Type other) {
-        if (other instanceof Number) {return this.add((Number) other);}
-        if (other instanceof Function) {return this.add((Function) other);}
+    public Type add(Type other) {return other.addToInteger(this);}
 
-        throw new IllegalArgumentException("Not Included In The Valid Class Types");
-    }
-
-    public Number add(Number other) {
-        Number newNum = new Integer(0);
-        if (other instanceof Integer) {newNum = new Integer(this.getValue() + ((Integer) other).getValue());}
-        if (other instanceof Double) {Double o = (Double) other; newNum = o.add(this);}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).add(this);}
-        return newNum;
-    }
-
-    public Function add(Function other) {
-
-        if (other instanceof Identity) return other.add(this);
-        //if (other instanceof Polynomial)   
-        return new Identity();
-    }
+    @Override
+    public Type addToInteger(Integer other) {return new Integer(this.value + other.value);}
+    @Override
+    public Type addToDouble(Double other) {return new Double(this.value + other.getValue());}
+    @Override
+    public Type addToFraction(Fraction other) {return new Fraction(this.value * other.getDen() + other.getNum(), other.getDen());}
 //----------------------------------------\\
 
 
 //----------------Subtraction----------------\\
     @Override
-    public Type subtract(Type other) {
-        if (other instanceof Number) {return this.subtract((Number) other);}
-        if (other instanceof Function) {return this.subtract((Function) other);}
-
-        throw new IllegalArgumentException("Not Included In The Valid Class Types");
-    }
-
-    public Number subtract(Number other) {
-        Number newNum = new Integer(0);
-        if (other instanceof Integer) {newNum = new Integer(this.getValue() - ((Integer) other).getValue());}
-        if (other instanceof Double) {newNum = new Double(this.value - ((Double) other).getValue());}
-        if (other instanceof Fraction) {newNum = (Number) (((Fraction) other).negate()).add(this);}
-        return newNum;
-    }
-
-    public Function subtract(Function other) {
-
-        if (other instanceof Identity) return other.subtract(this);
-        //if (other instanceof Polynomial)   
-        return new Identity();
-    }
+    public Type subtract(Type other) {return (other.negate()).add(this);}
 //----------------------------------------\\
 
 
 //----------------Multiplication----------------\\
     @Override
-    public Type multiply(Type other) {
-       
-        if (other instanceof Number) {return this.multiply((Number) other);}
-        if (other instanceof Function) {return this.multiply((Function) other);}
+    public Type multiply(Type other) {return other.multiplyToInteger(this);}
 
-        throw new IllegalArgumentException("Not Included In The Valid Class Types");
-    }
-
-    public Number multiply(Number other) {
-        Number newNum = new Integer(0);
-        if (other instanceof Integer) {newNum = new Integer(this.getValue() * ((Integer) other).getValue());}
-        if (other instanceof Double) {Double o = (Double) other; newNum = o.multiply(this);}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).multiply(this);}
-        return newNum;
-    }
-
-    public Function multiply(Function other) {
-
-        if (other instanceof Identity) return other.multiply(this);
-        //if (other instanceof Polynomial)   
-        return new Identity();
-    }
+    @Override
+    public Type multiplyToInteger(Integer other) {return new Integer(this.value * other.value);}
+    @Override
+    public Type multiplyToDouble(Double other) {return new Double(this.value * other.getValue());}
+    @Override
+    public Type multiplyToFraction(Fraction other) {return new Fraction(this.value * other.getNum(), other.getDen());}
 //----------------------------------------\\
 
 
 //----------------division----------------\\
     @Override
-    public Type divide(Type other) {
-        if (other instanceof Number) {return this.divide((Number) other);}
-        //if (other instanceof Function) {return this.add((Function) other);}
-
-        throw new IllegalArgumentException("Not Included In The Valid Class Types");
-    }
-
-    public Number divide(Number other) {
-        Number newNum = new Integer(0);
-        if (other instanceof Integer) {newNum = new Fraction(this.getValue(), ((Integer) other).getValue());}
-        if (other instanceof Double) {Double o = (Double) other; newNum = new Double(this.value / o.getValue());}
-        if (other instanceof Fraction) {Fraction o = (Fraction) other; newNum = (new Fraction(o.getDen(), o.getNum())).multiply(this);}
-        return newNum;
-    }
-
-    //public Function divide(Function other) {
-
-        //if (other instanceof Identity)
-        //if (other instanceof Polynomial)   
-        //return newNum;
-    //}
+    public Type divide(Type other) {return (other.recipricol()).multiplyToInteger(this);}
 //----------------------------------------\\
 
 
@@ -127,82 +60,53 @@ public class Integer extends Number {
 
     @Override
     public Type negate() {return new Integer(this.getValue() * -1);}
+
+    @Override
+    public Type recipricol() {return new Fraction(1, this.value);}
 //----------------------------------------\\
 
 
 //----------------equals----------------\\
     @Override
-    public boolean equals(Type other) {
-        if (other instanceof Number) {return this.equals((Number) other);}
-        if (other instanceof Function) {return this.equals((Function) other);}
+    public boolean equals(Type other) {return other.equalsInteger(this);}
 
-        throw new IllegalArgumentException("Not Included In The Valid Class Types");
-    }
-
-    public boolean equals(Number other) {
-        boolean newNum = false;
-        if (other instanceof Integer) {newNum = this.getValue() == ((Integer) other).getValue();}
-        if (other instanceof Double) {Double o = (Double) other; newNum = o.equals(this);}
-        if (other instanceof Fraction) {newNum = ((Fraction) other).equals(this);}
-        return newNum;
-    }
-
-    public boolean equals(Function other) {
-        if (other instanceof Polynomial) {
-            Polynomial o = (Polynomial) other;
-            if (o.getCoeff().length == 0 && (o.getCoeff()[0]).equals(this)) {return true;}
-        }
-        return false;
-    }
-
+    @Override
+    public boolean equalsInteger(Integer other) {return other.value == this.value;}
+    @Override
+    public boolean equalsDouble(Double other) {return other.getValue() == this.value;}
+    @Override
+    public boolean equalsFraction(Fraction other) {return (other.getNum() == this.value) && (other.getDen() == 1);}
 //----------------------------------------\\
 
 
-//----------------greater-than----------------\\
+//----------------greater-than---------------\\
     @Override
-    public boolean greaterThan(Number other) {
-        boolean newNum = false;
-        if (other instanceof Integer) {newNum = this.getValue() > ((Integer) other).getValue();}
-        if (other instanceof Double) {Double o = (Double) other; newNum = !(o.greaterThan(this));}
-        if (other instanceof Fraction) {newNum = !(((Fraction) other).greaterThan(this));}
-        return newNum;
-    }
+    public boolean greaterThan(Type other) {return other.greaterThanInteger(this);}
+
+    @Override
+    public boolean greaterThanInteger(Integer other) {return this.value > other.value;}
+    @Override
+    public boolean greaterThanDouble(Double other) {return this.value > other.getValue();}
+    @Override
+    public boolean greaterThanFraction(Fraction other) {return this.value * other.getDen() > other.getNum();}
 //----------------------------------------\\
 
 
 //----------------greater-than-or-equals--------------\\
     @Override
-    public boolean greaterThanOrEquals(Number other) {
-        boolean newNum = false;
-        if (other instanceof Integer) {newNum = this.getValue() >= ((Integer) other).getValue();}
-        if (other instanceof Double) {Double o = (Double) other; newNum = !(o.greaterThanOrEquals(this));}
-        if (other instanceof Fraction) {newNum = !(((Fraction) other).greaterThanOrEquals(this));}
-        return newNum;
-    }
+    public boolean greaterThanOrEquals(Number other) {return this.greaterThan(other) || this.equals(other);}
 //----------------------------------------\\
 
 
 //----------------less-than--------------\\
     @Override
-    public boolean lessThan(Number other) {
-        boolean newNum = false;
-        if (other instanceof Integer) {newNum = this.getValue() < ((Integer) other).getValue();}
-        if (other instanceof Double) {Double o = (Double) other; newNum = !(o.lessThan(this));}
-        if (other instanceof Fraction) {newNum = !(((Fraction) other).lessThan(this));}
-        return newNum;
-    }
+    public boolean lessThan(Number other) {return !(this.greaterThanOrEquals(other));}
 //----------------------------------------\\
 
 
 //----------------less-than-or-equal------------\\
     @Override
-    public boolean lessThanOrEquals(Number other) {
-        boolean newNum = false;
-        if (other instanceof Integer) {newNum = this.getValue() <= ((Integer) other).getValue();}
-        if (other instanceof Double) {Double o = (Double) other; newNum = !(o.lessThanOrEquals(this));}
-        if (other instanceof Fraction) {newNum = !(((Fraction) other).lessThanOrEquals(this));}
-        return newNum;
-    }
+    public boolean lessThanOrEquals(Number other) {return !(this.greaterThan(other));}
 //----------------------------------------\\
 
 

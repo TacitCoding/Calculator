@@ -2,11 +2,14 @@ public abstract class Number extends Type {
 
 
     public abstract boolean greaterThan(Number input);
+
+    public abstract boolean greaterThanInteger(Integer input);
+    public abstract boolean greaterThanDouble(Double input);
+    public abstract boolean greaterThanFraction(Fraction input);
+
     public abstract boolean greaterThanOrEquals(Number input);
     public abstract boolean lessThan(Number input);
     public abstract boolean lessThanOrEquals(Number input);
-
-    public abstract Type divide(Type other); //will remove eventually
 
     @Override
     public Type derivative() {return new Integer(0);}
