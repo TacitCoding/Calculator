@@ -43,7 +43,7 @@ public class Integer extends Number {
 
 //----------------division----------------\\
     @Override
-    public Type divide(Type other) {return (other.recipricol()).multiplyToInteger(this);}
+    public Type divide(Type other) {return (other.reciprocal()).multiplyToInteger(this);}
 //----------------------------------------\\
 
 
@@ -53,7 +53,8 @@ public class Integer extends Number {
         boolean negate = false;
         if (n.lessThan(new Integer(0))) {n = new Integer(n.getValue() * -1); negate = true;}
         int newInt = 1;
-        for (int i = 1; i < n.getValue(); i++) {newInt *= this.value;}
+        for (int i = 0; i < n.getValue(); i++) {
+            newInt = newInt * this.value;}
         if (negate) {return new Fraction(1, newInt);}
         return new Integer(newInt);
     }
@@ -62,7 +63,7 @@ public class Integer extends Number {
     public Type negate() {return new Integer(this.getValue() * -1);}
 
     @Override
-    public Type recipricol() {return new Fraction(1, this.value);}
+    public Type reciprocal() {return new Fraction(1, this.value);}
 //----------------------------------------\\
 
 
@@ -81,7 +82,7 @@ public class Integer extends Number {
 
 //----------------greater-than---------------\\
     @Override
-    public boolean greaterThan(Type other) {return other.greaterThanInteger(this);}
+    public boolean greaterThan(Number other) {return other.lessThanInteger(this) || other.equalsInteger(this);}
 
     @Override
     public boolean greaterThanInteger(Integer other) {return this.value > other.value;}
@@ -101,12 +102,19 @@ public class Integer extends Number {
 //----------------less-than--------------\\
     @Override
     public boolean lessThan(Number other) {return !(this.greaterThanOrEquals(other));}
+
+    @Override
+    public boolean lessThanInteger(Integer other) {return this.value < other.value;}
+    @Override
+    public boolean lessThanDouble(Double other) {return this.value < other.getValue();}
+    @Override
+    public boolean lessThanFraction(Fraction other) {return this.value * other.getDen() < other.getNum();}
 //----------------------------------------\\
 
 
 //----------------less-than-or-equal------------\\
     @Override
-    public boolean lessThanOrEquals(Number other) {return !(this.greaterThan(other));}
+    public boolean lessThanOrEquals(Number other) {return this.lessThan(other) || this.equals(other);}
 //----------------------------------------\\
 
 

@@ -66,7 +66,7 @@ public class Fraction extends Number {
     public Type multiply(Type other) {return other.multiplyToFraction(this);}
 
     @Override
-    public Type multiplyToInteger(Integer other) {return new Fraction(this.getValue() * other.num, other.den);}
+    public Type multiplyToInteger(Integer other) {return new Fraction(other.getValue() * this.num, this.den);}
     @Override
     public Type multiplyToDouble(Double other) {return this.multiply(other.toFraction());}
     @Override
@@ -76,7 +76,7 @@ public class Fraction extends Number {
 
 //----------------Division----------------\\
     @Override
-    public Type divide(Type other) {return (other.recipricol()).multiply(this);}
+    public Type divide(Type other) {return (other.reciprocal()).multiply(this);}
 //----------------------------------------\\
 
 
@@ -89,7 +89,7 @@ public class Fraction extends Number {
         int newNum = 1;
         int newDen = 1;
 
-        for (int i = 0; i < n.getValue(); i++) {
+        for (int i = 1; i < n.getValue(); i++) {
             newNum *= this.getNum();
             newDen *= this.getDen();
         }
@@ -103,7 +103,7 @@ public class Fraction extends Number {
     public Type negate() {return new Fraction(this.num * -1, this.den);}
 
     @Override
-    public Type recipricol() {return new Fraction(this.den, this.num);}
+    public Type reciprocal() {return new Fraction(this.den, this.num);}
 //----------------------------------------\\
 
 
@@ -122,10 +122,10 @@ public class Fraction extends Number {
 
 //----------------greater-than---------------\\
     @Override
-    public boolean greaterThan(Type other) {return other.greaterThanFraction(this);}
+    public boolean greaterThan(Number other) {return other.lessThanFraction(this) || other.equalsFraction(this);}
 
     @Override
-    public boolean greaterThanInteger(Integer other) {return other.getValue() * this.getDen() > this.getNum;}
+    public boolean greaterThanInteger(Integer other) {return other.getValue() * this.getDen() > this.getNum();}
     @Override
     public boolean greaterThanDouble(Double other) {return this.greaterThanFraction(other.toFraction());}
     @Override
@@ -148,6 +148,13 @@ public class Fraction extends Number {
 //----------------less-than-or-equal------------\\
     @Override
     public boolean lessThanOrEquals(Number other) {return !(this.greaterThan(other));}
+
+    @Override
+    public boolean lessThanInteger(Integer other) {return other.getValue() * this.getDen() < this.getNum();}
+    @Override
+    public boolean lessThanDouble(Double other) {return this.lessThanFraction(other.toFraction());}
+    @Override
+    public boolean lessThanFraction(Fraction other) {return (this.num*other.den < this.den*other.num);}
 //----------------------------------------\\
 
 

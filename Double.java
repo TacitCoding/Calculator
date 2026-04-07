@@ -43,7 +43,7 @@ public class Double extends Number {
 
 //----------------division----------------\\
     @Override
-    public Type divide(Type other) {return other.recipricol().multiply(this);}
+    public Type divide(Type other) {return other.reciprocal().multiply(this);}
 //----------------------------------------\\
 
 
@@ -62,7 +62,7 @@ public class Double extends Number {
     public Type negate() {return new Double(this.getValue() * -1);}
 
     @Override
-    public Type recipricol() {return this.toFraction().recipricol();}
+    public Type reciprocal() {return this.toFraction().reciprocal();}
 //----------------------------------------\\
 
 
@@ -81,7 +81,7 @@ public class Double extends Number {
 
 //----------------greater-than---------------\\
     @Override
-    public boolean greaterThan(Type other) {return other.greaterThanDouble(this);}
+    public boolean greaterThan(Number other) {return other.lessThanDouble(this) || other.equalsDouble(this);}
 
     @Override
     public boolean greaterThanInteger(Integer other) {return other.getValue() <= this.value;}
@@ -101,6 +101,13 @@ public class Double extends Number {
 //----------------less-than--------------\\
     @Override
     public boolean lessThan(Number other) {return !(this.greaterThanOrEquals(other));}
+
+    @Override
+    public boolean lessThanInteger(Integer other) {return other.getValue() >= this.value;}
+    @Override
+    public boolean lessThanDouble(Double other) {return other.value >= this.value;}
+    @Override
+    public boolean lessThanFraction(Fraction other) {return this.toFraction().lessThanFraction(other);}
 //----------------------------------------\\
 
 
