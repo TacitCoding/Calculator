@@ -49,7 +49,7 @@ public abstract class Type {
     
 
     public abstract Type derivative();
-    //public abstract Type antiderivative();
+    public abstract Type antiderivative();
 
     public abstract String toString();
 }

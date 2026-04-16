@@ -6,4 +6,6 @@ public class Sum extends Function {
         //check for at least one function
         this.terms = terms;
     }
+
+    public Type[] getTerms() {return this.terms;}
 }

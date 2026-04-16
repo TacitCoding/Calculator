@@ -6,4 +6,6 @@ public class Product extends Function {
         //check that atleast one term is a function
         this.terms = terms;
     }
+
+    public Type[] getTerms() {return this.terms;}
 }

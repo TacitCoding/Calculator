@@ -5,7 +5,7 @@ public class Identity extends Function {
 
 //----------------Addition----------------\\
     @Override
-    public Type add(Type other) {return other.addToIdentity;}
+    public Type add(Type other) {return other.addToIdentity(this);}
 
     @Override
     public Type addToInteger(Integer other) {return new Sum(new Type[] {this, other});}
@@ -32,7 +32,7 @@ public class Identity extends Function {
 
 //----------------Multiplication----------------\\
     @Override
-    public Type multiply(Type other) {return other.multiplyToIdentity;}
+    public Type multiply(Type other) {return other.multiplyToIdentity(this);}
 
     @Override
     public Type multiplyToInteger(Integer other) {return new Product(new Type[] {this, other});}
@@ -58,10 +58,13 @@ public class Identity extends Function {
 
 
 //----------------------------------------\\
+    @Override
     public Type pow(Integer n) {return new Power(this, n);}
 
+    @Override
     public Type negate() {return this.multiply(new Integer(-1));}
 
+    @Override
     public Type reciprocal() {return new Power(this, new Integer(-1));}
 //----------------------------------------\\
 
@@ -79,7 +82,7 @@ public class Identity extends Function {
     @Override
     public boolean equalsIdentity(Identity other) {return true;}
     @Override
-    public boolean equalsPower(Power other) {return other.getBase().equalsIdentity(this) && other.getExpo.equalsInteger(new Integer(1));}
+    public boolean equalsPower(Power other) {return other.getBase().equalsIdentity(this) && other.getExpo().equalsInteger(new Integer(1));}
     @Override
     public boolean equalsSum(Sum other) {return (other.getTerms().length == 1) && other.getTerms()[0].equals(this);}
     @Override
@@ -95,13 +98,16 @@ public class Identity extends Function {
 
 
 //----------------Derivative and Anti-------------------\\
+    @Override
     public Type derivative() {return new Integer(1);}
 
+    @Override
     public Type antiderivative() {return new Product(new Type[] {new Fraction(1, 2), new Power(this, new Integer(2))});}
 //----------------------------------------\\
 
 
 //---------------String----------------\\
+    @Override
     public String toString() {return "x";}
 //-------------------------------------\\
 
